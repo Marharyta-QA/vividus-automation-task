@@ -9,6 +9,7 @@ dependencies {
     implementation platform('org.vividus:vividus-bom:0.6.18')
     implementation('org.vividus:vividus')
     implementation('org.vividus:vividus-plugin-web-app')
+    implementation('org.vividus:vividus-plugin-rest-api')
 }
 configurations.configureEach {
     resolutionStrategy.force 'com.github.pazone:ashot:12cfadadac'
