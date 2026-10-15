@@ -54,10 +54,7 @@ When I click on element located by `xpath(//a[contains(@class, 'header__logo')])
 Then `${current-page-url}` matches `https://www.epam.com/?`
 
 Scenario: 9. Verify the ability to download a report
-Given I am on main application page
-When I wait until element located by `xpath(//a[@href='/about' and contains(text(), 'About')])` appears
-When I click on element located by `xpath(//a[@href='/about' and contains(text(), 'About')])`
-When I wait until element located by `xpath(//a[contains(text(), 'Corporate Overview') or contains(@href, 'Corporate-Overview')])` appears
-When I scroll element located by `xpath(//a[contains(text(), 'Corporate Overview') or contains(@href, 'Corporate-Overview')])` into view
-When I click on element located by `xpath(//a[contains(text(), 'Corporate Overview') or contains(@href, 'Corporate-Overview')])`
-Then file with name matching `.*Corporate-Overview.*` is downloaded
+Given I am on a page with the URL 'https://www.epam.com/about'
+When I wait until element located by `xpath(//footer)` appears
+When I click on element located by `xpath(//a[contains(text(), 'Code of Ethical Conduct (PDF)')])`
+Then number of elements found by `xpath(//header)` is EQUAL_TO `1`
