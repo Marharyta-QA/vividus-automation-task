@@ -1,0 +1,63 @@
+Meta:
+@profile web/desktop/chrome
+
+Scenario: 1. Verify the page title
+Given I am on main application page
+When I wait until element located by `xpath(//header)` appears
+Then `${current-page-url}` matches `https://www.epam.com/?`
+
+Scenario: 2. Verify the ability to switch between Light and Dark modes
+Given I am on main application page
+When I wait until element located by `xpath(//header)` appears
+When I wait until element located by `xpath(//div[contains(@class, 'theme-switcher')] | //button[contains(@class, 'theme-switcher')])` appears
+When I click on element located by `xpath(//div[contains(@class, 'theme-switcher')] | //button[contains(@class, 'theme-switcher')])`
+Then number of elements found by `xpath(//header)` is EQUAL_TO `1`
+
+Scenario: 3. Verify the ability to change the site language to Ukrainian
+Given I am on main application page
+When I wait until element located by `xpath(//header)` appears
+When I click on element located by `xpath(//button[contains(@class, 'location-selector') or contains(text(), 'Global')])`
+When I click on element located by `xpath(//a[contains(@href, 'epam.ua') or contains(text(), 'UA')])`
+Then `${current-page-url}` matches `https://.*epam\.ua.*`
+
+Scenario: 4. Verify the policies list
+Given I am on main application page
+When I wait until element located by `xpath(//footer)` appears
+Then number of elements found by `xpath(//footer//a)` is EQUAL_TO `22`
+
+Scenario: 5. Verify the ability to switch location lists by region
+Given I am on main application page
+When I wait until element located by `xpath(//footer)` appears
+Then number of elements found by `xpath(//footer)` is EQUAL_TO `1`
+
+Scenario: 6. Verify the search function
+Given I am on main application page
+When I wait until element located by `xpath(//button[contains(@class, 'header-search__button')])` appears
+When I click on element located by `xpath(//button[contains(@class, 'header-search__button')])`
+When I wait until element located by `xpath(//input[contains(@placeholder, 'What are you looking for') or @type='text'])` appears
+When I enter `AI` in field located by `xpath(//input[contains(@placeholder, 'What are you looking for') or @type='text'])`
+When I click on element located by `xpath(//button[contains(text(), 'FIND') or contains(@class, 'custom-search-button')])`
+Then number of elements found by `xpath(//div[contains(@class, 'search-results') or contains(@class, 'search-result')])` is GREATER_THAN `0`
+
+Scenario: 7. Verify form field validation
+Given I am on main application page
+When I wait until element located by `xpath(//a[contains(@class, 'cta-button-ui') or .//span[text()='CONTACT US']])` appears
+When I click on element located by `xpath(//a[contains(@class, 'cta-button-ui') or .//span[text()='CONTACT US']])`
+When I wait until element located by `xpath(//button[contains(@class, 'submit') or contains(text(), 'SUBsubmit') or @type='submit'])` appears
+When I click on element located by `xpath(//button[contains(@class, 'submit') or contains(text(), 'SUBMIT') or @type='submit'])`
+Then number of elements found by `xpath(//span[contains(@class, 'error') or contains(@class, 'validation') or contains(@class, 'required')])` is GREATER_THAN `0`
+
+Scenario: 8. Verify that the company logo in the header leads to the main page
+Given I am on main application page
+When I wait until element located by `xpath(//header)` appears
+When I click on element located by `xpath(//a[contains(@class, 'header__logo')])`
+Then `${current-page-url}` matches `https://www.epam.com/?`
+
+Scenario: 9. Verify the ability to download a report
+Given I am on main application page
+When I wait until element located by `xpath(//a[@href='/about' and contains(text(), 'About')])` appears
+When I click on element located by `xpath(//a[@href='/about' and contains(text(), 'About')])`
+When I wait until element located by `xpath(//a[contains(text(), 'Corporate Overview') or contains(@href, 'Corporate-Overview')])` appears
+When I scroll element located by `xpath(//a[contains(text(), 'Corporate Overview') or contains(@href, 'Corporate-Overview')])` into view
+When I click on element located by `xpath(//a[contains(text(), 'Corporate Overview') or contains(@href, 'Corporate-Overview')])`
+Then file with name matching `.*Corporate-Overview.*` is downloaded

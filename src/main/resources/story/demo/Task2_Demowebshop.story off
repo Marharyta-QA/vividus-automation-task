@@ -1,0 +1,75 @@
+Narrative:
+As a user
+I want to test the main functionality of Demowebshop
+So that I can ensure the e-shop works correctly
+
+Scenario: 1. Verify user registration is possible
+Given I am on main application page
+When I click on element located by `xpath(//a[@class='ico-register'])`
+When I click on element located by `xpath(//input[@id='gender-female'])`
+When I enter `Test` in field located by `xpath(//input[@id='FirstName'])`
+When I enter `User` in field located by `xpath(//input[@id='LastName'])`
+When I enter `test_user_${generate-random-uuid}@test.com` in field located by `xpath(//input[@id='Email'])`
+When I enter `Password123` in field located by `xpath(//input[@id='Password'])`
+When I enter `Password123` in field located by `xpath(//input[@id='ConfirmPassword'])`
+When I click on element located by `xpath(//input[@id='register-button'])`
+When I wait until element located by `xpath(//div[@class='result' and contains(text(), 'Your registration completed')])` appears
+
+Scenario: 2. Verify user login is possible
+Given I am on main application page
+When I click on element located by `xpath(//a[@class='ico-login'])`
+When I enter `test_user_123@test.com` in field located by `xpath(//input[@id='Email'])`
+When I enter `Password123` in field located by `xpath(//input[@id='Password'])`
+When I click on element located by `xpath(//input[@value='Log in'])`
+When I wait until element located by `xpath(//a[@class='account'])` appears
+
+Scenario: 3. Verify the 'Computers' category contains sub-categories
+Given I am on main application page
+When I click on element located by `xpath(//ul[@class='top-menu']//a[contains(text(), 'Computers')])`
+When I wait until element located by `xpath(//ul[@class='sublist']//a[contains(text(), 'Desktops')])` appears
+
+Scenario: 4. Verify adding a product to the shopping cart
+Given I am on main application page
+When I click on element located by `xpath(//div[@class='product-item']//h2/a[contains(text(), 'Build your own cheap computer')])`
+When I click on element located by `xpath(//input[@id='add-to-cart-button-72'])`
+When I wait until element located by `xpath(//p[@class='content' and contains(text(), 'The product has been added')])` appears
+
+Scenario: 5. Verify the number of items displayed per page can be changed
+Given I am on main application page
+When I click on element located by `xpath(//ul[@class='top-menu']//a[contains(text(), 'Computers')])`
+When I click on element located by `xpath(//div[@class='sub-category-grid']//a[contains(text(), 'Desktops')])`
+When I select `4` in dropdown located by `xpath(//select[@id='products-pagesize'])`
+When I wait until element located by `xpath(//select[@id='products-pagesize']/option[@selected and contains(text(), '4')])` appears
+
+Scenario: 6. Verify an item can be added to the Wishlist
+Given I am on main application page
+When I click on element located by `xpath(//ul[@class='top-menu']//a[contains(text(), 'Jewelry')])`
+When I click on element located by `xpath(//div[@class='product-item']//a[contains(text(), 'Black & White Diamond Heart')])`
+When I click on element located by `xpath(//input[@value='Add to wishlist'])`
+When I wait until element located by `xpath(//p[@class='content' and contains(text(), 'The product has been added')])` appears
+
+Scenario: 7. Verify an item can be added to the cart
+Given I am on main application page
+When I click on element located by `xpath(//div[@class='product-item']//a[contains(text(), '14.1-inch Laptop')])`
+When I click on element located by `xpath(//input[@id='add-to-cart-button-31'])`
+When I wait until element located by `xpath(//p[@class='content' and contains(text(), 'The product has been added')])` appears
+
+Scenario: 8. Verify an item can be removed from the cart
+Given I am on main application page
+When I click on element located by `xpath(//div[@class='product-item']//a[contains(text(), '14.1-inch Laptop')])`
+When I click on element located by `xpath(//input[@id='add-to-cart-button-31'])`
+When I wait until element located by `xpath(//p[@class='content' and contains(text(), 'The product has been added')])` appears
+When I click on element located by `xpath(//li[@id='topcartlink']/a)`
+When I click on element located by `xpath((//input[@name='removefromcart'])[1])`
+When I click on element located by `xpath(//input[@value='Update shopping cart'])`
+When I wait until element located by `xpath(//div[@class='order-summary-content'])` appears
+
+Scenario: 9. Verify checkout is possible for an item
+Given I am on main application page
+When I click on element located by `xpath(//div[@class='product-item']//a[contains(text(), '14.1-inch Laptop')])`
+When I click on element located by `xpath(//input[@id='add-to-cart-button-31'])`
+When I wait until element located by `xpath(//p[@class='content' and contains(text(), 'The product has been added')])` appears
+When I click on element located by `xpath(//li[@id='topcartlink']/a)`
+When I click on element located by `xpath(//input[@id='termsofservice'])`
+When I click on element located by `xpath(//button[@id='checkout'])`
+When I wait until element located by `xpath(//div[@class='page-title']/h1[contains(text(), 'Checkout')])` appears
