@@ -81,9 +81,10 @@ When I execute HTTP POST request for resource with URL `https://petstore.swagger
 Then response code is equal to `200`
 
 Scenario: 6. Verify a pet’s image can be updated
-When I set request headers:
-|name        |value               |
-|Content-Type|multipart/form-data |
+Given multipart request:
+| type   | name               | value               | contentType | fileName       |
+| file   | file               | data/pet-photo.png  | image/png   | pet-photo.png  |
+| string | additionalMetadata | automated upload    | text/plain  |                |
 When I execute HTTP POST request for resource with URL `https://petstore.swagger.io/v2/pet/10/uploadImage`
 Then response code is equal to `200`
 
@@ -107,16 +108,3 @@ When I set request headers:
 |Content-Type|multipart/form-data |
 When I execute HTTP POST request for resource with URL `https://petstore.swagger.io/v2/pet/10/uploadImage`
 Then response code is equal to `400`
-
-Scenario: 10 Verify a pet’s image can be updated
-Given request body: #{toMultipartEntity(file, classpath:image.jpg)}
-When I execute HTTP POST request for resource with URL `https://petstore.swagger.io/v2/pet/10/uploadImage`
-Then response code is equal to `200`
-
-Scenario: Verify a pet’s image can be updated
-Given request body: #{(toMultipartEntity(file, classpath:image.jpg))}
-When I set request headers:
-|name        |value               |
-|Content-Type|multipart/form-data |
-When I execute HTTP POST request for resource with URL `https://petstore.swagger.io/v2/pet/10/uploadImage`
-Then response code is equal to `200`
